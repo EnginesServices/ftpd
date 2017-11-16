@@ -15,8 +15,177 @@
         "level": "alpha",
         "patch": 0
       }
-    }
+    },
+    "software": {
+      "display": {
+        "title": "ftp server",
+        "label": "ftpd"
+      }
+    },
+    "timestamp": "2017-11-16T13:57:21+11:00"
   },
   "software": {
+    "base": {
+      "name": "ftpd",
+      "accepts": [
+        "filesystem/local/filesystem"
+      ],
+      "publisher_namespace": "EnginesSystem",
+      "type_path": "ftp",
+      "service_handle_field": "username",
+      "parent_image": "engines/servicebase",
+      "run_as_user": "proftpd",
+      "deployment_type": "worker",
+      "memory": {
+        "required": 56,
+        "recommended": 56
+      },
+      "persistent": true,
+      "attach_post_build": true
+    },
+    "ports": [
+      {
+        "port": 20,
+        "external": 20,
+        "protocol": "tcp"
+      },
+      {
+        "port": 21,
+        "external": 21,
+        "protocol": "tcp"
+      },
+      {
+        "port": 989,
+        "external": 989,
+        "protocol": "tcp"
+      },
+      {
+        "port": 115,
+        "external": 115,
+        "protocol": "tcp"
+      }
+    ],
+    "scripts": {
+      "start": {
+        "language": "sh",
+        "content": "#!/bin/sh\r\n\r\n\r\nPID_FILE=/var/run/ftpd.pid\r\nexport PID_FILE\r\n. /home/engines/functions/trap.sh\r\n\r\n\r\nsudo -n  /usr/sbin/proftpd -n &\r\n\r\nstartup_complete\r\n\r\nwait \r\nexit_code=$?\r\n\r\nshutdown_complete\r\n"
+      },
+      "install": {
+        "language": "sh"
+      }
+    },
+    "system_packages": [
+      {
+        "package": "proftpd"
+      },
+      {
+        "package": "libsasl2-2"
+      },
+      {
+        "package": "libsasl2-modules-gssapi-mit"
+      },
+      {
+        "package": "libsasl2-modules-ldap"
+      },
+      {
+        "package": "proftpd-mod-ldap"
+      }
+    ],
+    "service_configurations": [
+      {
+        "publisher_namespace": "EnginesSystem",
+        "type_path": "filesystem/local/filesystem",
+        "variables": {
+          "service_name": "fs_ro",
+          "volume_src": "/var/lib/engines/fs/",
+          "engine_path": " /ftp/ro/",
+          "permissions": "ro",
+          "user": "",
+          "group": ""
+        }
+      },
+      {
+        "publisher_namespace": "EnginesSystem",
+        "type_path": "filesystem/local/filesystem",
+        "variables": {
+          "service_name": "fs+rw",
+          "volume_src": "/var/lib/engines/fs/",
+          "engine_path": " /ftp/rw/",
+          "permissions": "rw",
+          "user": "",
+          "group": ""
+        }
+      }
+    ],
+    "consumer_params": [
+      {
+        "name": "folder",
+        "value": "/",
+        "mandatory": true,
+        "input": {
+          "type": "string",
+          "label": "Top level directorty"
+        }
+      },
+      {
+        "name": "volume",
+        "value": "_Engines_Environment(volume_name)",
+        "mandatory": true,
+        "immutable": true,
+        "input": {
+          "type": "string",
+          "label": "Volume name"
+        }
+      },
+      {
+        "name": "username",
+        "value": "_Engines_System(service_account())",
+        "mandatory": true,
+        "immutable": true,
+        "input": {
+          "type": "string",
+          "label": "User Name"
+        }
+      },
+      {
+        "name": "password",
+        "value": "_Engines_Builder(service_password(8))",
+        "mandatory": true,
+        "input": {
+          "type": "password_with_confirmation"
+        }
+      },
+      {
+        "name": "rw_access",
+        "value": "false",
+        "mandatory": true,
+        "immutable": true,
+        "input": {
+          "type": "boolean",
+          "label": "Write access",
+          "comment": "Write access includes the ability to delete ",
+          "hint": "Allow ftp service to write files "
+        }
+      },
+      {
+        "name": "ftp_gid",
+        "value": "_Engines_Builder(data_gid)",
+        "mandatory": true,
+        "immutable": true,
+        "input": {
+          "type": "string"
+        }
+      }
+    ],
+    "actionators": [
+      {
+        "name": "active_users",
+        "label": "List users logged on",
+        "return_type": "json",
+        "script": {
+          "language": "sh"
+        }
+      }
+    ]
   }
 }
