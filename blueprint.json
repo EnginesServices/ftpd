@@ -19,14 +19,14 @@
     "software": {
       "display": {
         "title": "ftp server",
-        "label": "ftpd"
+        "label": "ftp"
       }
     },
-    "timestamp": "2018-02-21T13:19:34+11:00"
+    "timestamp": "2018-02-21T13:28:41+11:00"
   },
   "software": {
     "base": {
-      "name": "ftpd",
+      "name": "ftp",
       "publisher_namespace": "EnginesSystem",
       "type_path": "filesystem/service/ftp",
       "service_handle_field": "username",
