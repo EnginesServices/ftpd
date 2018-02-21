@@ -2,8 +2,8 @@
   "schema": {
     "type": "service_blueprint",
     "version": {
-      "major": 1,
-      "minor": 0
+      "major": 0,
+      "minor": 1
     },
     "origin": "Engines Developer Studio 0.2"
   },
@@ -22,46 +22,45 @@
         "label": "ftpd"
       }
     },
-    "timestamp": "2017-11-16T13:57:21+11:00"
+    "timestamp": "2018-02-21T13:15:13+11:00"
   },
   "software": {
     "base": {
       "name": "ftpd",
-      "accepts": [
-        "filesystem/local/filesystem"
-      ],
       "publisher_namespace": "EnginesSystem",
       "type_path": "ftp",
       "service_handle_field": "username",
       "parent_image": "engines/servicebase",
-      "run_as_user": "proftpd",
       "deployment_type": "worker",
       "memory": {
         "required": 56,
         "recommended": 56
       },
+      "run_as_user": "proftpd"
+    },
+    "disposition": {
       "persistent": true,
       "attach_post_build": true
     },
     "ports": [
       {
-        "port": 20,
-        "external": 20,
+        "port": "20",
+        "external": "20",
         "protocol": "tcp"
       },
       {
-        "port": 21,
-        "external": 21,
+        "port": "21",
+        "external": "21",
         "protocol": "tcp"
       },
       {
-        "port": 989,
-        "external": 989,
+        "port": "989",
+        "external": "989",
         "protocol": "tcp"
       },
       {
-        "port": 115,
-        "external": 115,
+        "port": "115",
+        "external": "115",
         "protocol": "tcp"
       }
     ],
@@ -117,6 +116,11 @@
         }
       }
     ],
+    "consumers": {
+      "accepts": [
+        "filesystem/local/filesystem"
+      ]
+    },
     "consumer_params": [
       {
         "name": "folder",
@@ -157,11 +161,11 @@
       },
       {
         "name": "rw_access",
-        "value": "false",
+        "value": "true",
         "mandatory": true,
         "immutable": true,
         "input": {
-          "type": "boolean",
+          "type": "checkbox_boolean",
           "label": "Write access",
           "comment": "Write access includes the ability to delete ",
           "hint": "Allow ftp service to write files "
