@@ -22,7 +22,7 @@
         "label": "ftp"
       }
     },
-    "timestamp": "2018-02-21T13:28:41+11:00"
+    "timestamp": "2019-02-14T10:26:35+11:00"
   },
   "software": {
     "base": {
@@ -32,6 +32,8 @@
       "service_handle_field": "username",
       "parent_image": "engines/servicebase",
       "deployment_type": "worker",
+      "default_stop_timeout": 0,
+      "restart_attempts": 0,
       "memory": {
         "required": 56,
         "recommended": 56
@@ -146,6 +148,7 @@
         "value": "_Engines_System(service_account())",
         "mandatory": true,
         "immutable": true,
+        "ask_at_build_time": true,
         "input": {
           "type": "string",
           "label": "User Name"
