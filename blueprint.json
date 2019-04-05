@@ -22,7 +22,7 @@
         "label": "ftp"
       }
     },
-    "timestamp": "2019-04-05T11:08:16+11:00"
+    "timestamp": "2019-04-05T11:14:32+11:00"
   },
   "software": {
     "base": {
@@ -199,6 +199,7 @@
         "variables": [
           {
             "name": "username",
+            "mandatory": true,
             "input": {
               "type": "string"
             }
@@ -219,10 +220,36 @@
       {
         "name": "remove_user_key",
         "return_type": "plain_text",
+        "variables": [
+          {
+            "name": "username",
+            "mandatory": true,
+            "input": {
+              "type": "string"
+            }
+          }
+        ],
         "script_sudo": {
           "language": "php",
           "content": "#!/bin/sh\r\n\r\nrm /etc/sftp/authorized_keys/$username"
         }
+      },
+      {
+        "name": "list_user_keys",
+        "return_type": "json"
+      },
+      {
+        "name": "get_user_key",
+        "return_type": "plain_text",
+        "variables": [
+          {
+            "name": "username",
+            "mandatory": true,
+            "input": {
+              "type": "string"
+            }
+          }
+        ]
       }
     ]
   }
