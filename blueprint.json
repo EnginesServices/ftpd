@@ -22,7 +22,7 @@
         "label": "ftp"
       }
     },
-    "timestamp": "2019-04-05T11:14:32+11:00"
+    "timestamp": "2019-04-05T11:35:12+11:00"
   },
   "software": {
     "base": {
@@ -236,7 +236,10 @@
       },
       {
         "name": "list_user_keys",
-        "return_type": "json"
+        "return_type": "json",
+        "script": {
+          "content": "#!bin/sh\r\n\r\necho -n '{\"users\":['\r\nn=0\r\nfor user in `ls  /etc/sftp/authorized_keys/`\r\n do\r\n   if test $n -eq 0\r\n    n=1\r\n   else\r\n    echo -n ,\r\n  fi\r\n   echo -n '\"'$user'\"'\r\n  \r\n done\r\n echo ']}'\r\n"
+        }
       },
       {
         "name": "get_user_key",
