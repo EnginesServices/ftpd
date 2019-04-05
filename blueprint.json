@@ -22,7 +22,7 @@
         "label": "ftp"
       }
     },
-    "timestamp": "2019-02-14T10:26:35+11:00"
+    "timestamp": "2019-04-05T11:08:16+11:00"
   },
   "software": {
     "base": {
@@ -188,9 +188,40 @@
       {
         "name": "active_users",
         "label": "List users logged on",
-        "return_type": "json",
+        "return_type": "plain_text",
         "script": {
           "language": "sh"
+        }
+      },
+      {
+        "name": "set_user_key",
+        "return_type": "plain_text",
+        "variables": [
+          {
+            "name": "username",
+            "input": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_key",
+            "mandatory": true,
+            "input": {
+              "type": "text"
+            }
+          }
+        ],
+        "script_sudo": {
+          "language": "sh",
+          "content": "#!/bin/sh\r\n\r\necho $user_key > /etc/sftp/authorized_keys/$username"
+        }
+      },
+      {
+        "name": "remove_user_key",
+        "return_type": "plain_text",
+        "script_sudo": {
+          "language": "php",
+          "content": "#!/bin/sh\r\n\r\nrm /etc/sftp/authorized_keys/$username"
         }
       }
     ]
