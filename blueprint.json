@@ -22,7 +22,7 @@
         "label": "ftp"
       }
     },
-    "timestamp": "2019-04-05T11:35:12+11:00"
+    "timestamp": "2019-04-05T12:56:06+11:00"
   },
   "software": {
     "base": {
@@ -190,7 +190,8 @@
         "label": "List users logged on",
         "return_type": "plain_text",
         "script": {
-          "language": "sh"
+          "language": "sh",
+          "content": "#!/bin/sh\r\n\r\n ps -ax | grep proft | grep -v acc | cut -f3- -d: |grep -"
         }
       },
       {
